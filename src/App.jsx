@@ -8,11 +8,13 @@ import { AmbientShapes } from "./components/atmosphere/AmbientShapes.jsx";
 import { Nav } from "./components/layout/Nav.jsx";
 import { Footer } from "./components/layout/Footer.jsx";
 import { GlobalStyles } from "./styles/GlobalStyles.jsx";
-import { HomePage } from "./pages/HomePage.jsx";
-import { AboutPage } from "./pages/AboutPage.jsx";
-import { ServicesPage } from "./pages/ServicesPage.jsx";
-import { NewsPage } from "./pages/NewsPage.jsx";
-import { ContactPage } from "./pages/ContactPage.jsx";
+import {
+  HomeScreen,
+  AboutScreen,
+  ServicesScreen,
+  NewsScreen,
+  ContactScreen,
+} from "./screens/index.js";
 
 export default function App() {
   const [path, setPath] = useState("/");
@@ -70,11 +72,11 @@ export default function App() {
             zIndex: 2,
           }}
         >
-          {path === "/" && <HomePage />}
-          {path === "/about" && <AboutPage />}
-          {path === "/services" && <ServicesPage />}
-          {path === "/news" && <NewsPage />}
-          {path === "/contact" && <ContactPage />}
+          {path === "/" && <HomeScreen />}
+          {path === "/about" && <AboutScreen />}
+          {path === "/services" && <ServicesScreen />}
+          {path === "/news" && <NewsScreen />}
+          {path === "/contact" && <ContactScreen />}
         </main>
 
         <Footer />

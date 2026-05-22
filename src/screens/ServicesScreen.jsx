@@ -8,7 +8,7 @@ import { PageHero } from "../components/layout/PageHero.jsx";
 import { Reveal } from "../components/ui/Reveal.jsx";
 import { SERVICES } from "../data/services.js";
 
-export function ServicesPage() {
+export function ServicesScreen() {
   const { navigate } = useRouter();
   const [active, setActive] = useState(0);
 

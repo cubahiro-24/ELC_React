@@ -3,7 +3,7 @@ import { PageHero } from "../components/layout/PageHero.jsx";
 import { Reveal } from "../components/ui/Reveal.jsx";
 import { TIMELINE } from "../data/timeline.js";
 
-export function AboutPage() {
+export function AboutScreen() {
   return (
     <>
       <PageHero

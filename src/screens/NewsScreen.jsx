@@ -2,11 +2,78 @@ import { useState } from "react";
 import { ArrowRight, Send } from "lucide-react";
 import { PageHero } from "../components/layout/PageHero.jsx";
 import { Reveal } from "../components/ui/Reveal.jsx";
-import { FeaturedArtwork } from "../components/news/FeaturedArtwork.jsx";
-import { ArticleArtwork } from "../components/news/ArticleArtwork.jsx";
 import { NEWS } from "../data/news.js";
 
-export function NewsPage() {
+function FeaturedArtwork() {
+  return (
+    <div style={{ aspectRatio: "5/4", background: "#1a1612", borderRadius: 4, position: "relative", overflow: "hidden" }}>
+      <svg viewBox="0 0 500 400" style={{ width: "100%", height: "100%" }}>
+        <defs>
+          <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#d97706" /><stop offset="100%" stopColor="#7c2d12" />
+          </linearGradient>
+        </defs>
+        <rect width="500" height="400" fill="#1a1612" />
+        <circle cx="380" cy="120" r="80" fill="url(#warm)" opacity="0.85">
+          <animate attributeName="r" values="80;90;80" dur="6s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="380" cy="120" r="80" fill="none" stroke="#f4ede0" strokeWidth="1" opacity="0.3" />
+        <circle cx="380" cy="120" r="120" fill="none" stroke="#f4ede0" strokeWidth="1" opacity="0.15" />
+        <circle cx="380" cy="120" r="160" fill="none" stroke="#f4ede0" strokeWidth="1" opacity="0.08" />
+        <text x="60" y="260" fontFamily="Fraunces, serif" fontSize="64" fontStyle="italic" fontWeight="300" fill="#f4ede0">Nouveau</text>
+        <text x="60" y="320" fontFamily="Fraunces, serif" fontSize="64" fontWeight="400" fill="#d97706">chapitre.</text>
+        <text x="60" y="362" fontFamily="JetBrains Mono, monospace" fontSize="11" fill="#f4ede0" opacity="0.5" letterSpacing="2">
+          INSCRIPTIONS · OUVERTES
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+function ArticleArtwork({ variant }) {
+  const variants = {
+    a: (
+      <svg viewBox="0 0 400 300" style={{ width: "100%", height: "100%" }}>
+        <rect width="400" height="300" fill="#fef3e2" />
+        {[...Array(8)].map((_, i) => (
+          <line key={i} x1="0" y1={40 + i * 28} x2="400" y2={20 + i * 30} stroke="#d97706" strokeWidth="1" opacity={0.2 + i * 0.07} />
+        ))}
+        <circle cx="280" cy="160" r="50" fill="#d97706" />
+        <text x="200" y="270" textAnchor="middle" fontFamily="Fraunces, serif" fontSize="42" fontStyle="italic" fontWeight="300" fill="#1a1612">Dépêche</text>
+      </svg>
+    ),
+    b: (
+      <svg viewBox="0 0 400 300" style={{ width: "100%", height: "100%" }}>
+        <rect width="400" height="300" fill="#1a1612" />
+        <text x="40" y="120" fontFamily="Fraunces, serif" fontSize="80" fontWeight="400" fill="#d97706">A</text>
+        <text x="120" y="180" fontFamily="Fraunces, serif" fontSize="100" fontStyle="italic" fontWeight="300" fill="#f4ede0">B</text>
+        <text x="220" y="240" fontFamily="Fraunces, serif" fontSize="120" fontWeight="500" fill="#f4ede0" opacity="0.9">C</text>
+        <circle cx="60" cy="220" r="6" fill="#d97706" />
+      </svg>
+    ),
+    c: (
+      <svg viewBox="0 0 400 300" style={{ width: "100%", height: "100%" }}>
+        <rect width="400" height="300" fill="#fef3e2" />
+        {[...Array(40)].map((_, i) => (
+          <circle key={i} cx={20 + (i % 8) * 50} cy={30 + Math.floor(i / 8) * 50} r={2 + ((i * 7) % 4)} fill="#1a1612" opacity={0.3 + ((i * 13) % 4) * 0.1} />
+        ))}
+        <rect x="100" y="100" width="200" height="100" fill="#d97706" opacity="0.9" />
+        <text x="200" y="160" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="14" fill="#1a1612" letterSpacing="3">ATELIER</text>
+      </svg>
+    ),
+    d: (
+      <svg viewBox="0 0 400 300" style={{ width: "100%", height: "100%" }}>
+        <rect width="400" height="300" fill="#7c2d12" />
+        <path d="M 0 200 Q 100 120 200 180 T 400 160 L 400 300 L 0 300 Z" fill="#d97706" />
+        <path d="M 0 230 Q 100 170 200 220 T 400 200 L 400 300 L 0 300 Z" fill="#1a1612" opacity="0.4" />
+        <circle cx="320" cy="80" r="32" fill="#f4ede0" opacity="0.95" />
+      </svg>
+    ),
+  };
+  return variants[variant] || variants.a;
+}
+
+export function NewsScreen() {
   const [filter, setFilter] = useState("Tout");
   const cats = ["Tout", "Actualité", "Événement", "Atelier", "Annonce"];
   const filtered = filter === "Tout" ? NEWS : NEWS.filter((n) => n.category === filter);
