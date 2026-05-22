@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Send } from "lucide-react";
+import { useRouter } from "../context/RouterContext.jsx";
 import { PageHero } from "../components/layout/PageHero.jsx";
 import { Reveal } from "../components/ui/Reveal.jsx";
 import { NEWS } from "../data/news.js";
@@ -74,9 +75,11 @@ function ArticleArtwork({ variant }) {
 }
 
 export function NewsScreen() {
+  const { navigate } = useRouter();
   const [filter, setFilter] = useState("Tout");
   const cats = ["Tout", "Actualité", "Événement", "Atelier", "Annonce"];
   const filtered = filter === "Tout" ? NEWS : NEWS.filter((n) => n.category === filter);
+  const openArticle = (slug) => navigate(`/news/${slug}`);
 
   return (
     <>
@@ -104,11 +107,14 @@ export function NewsScreen() {
                 letterSpacing: "-0.03em", fontWeight: 400, margin: "0 0 24px 0",
               }}>{NEWS[0].title}</h2>
               <p style={{ fontSize: 17, lineHeight: 1.65, margin: "0 0 28px", opacity: 0.85 }}>{NEWS[0].excerpt}</p>
-              <button style={{
+              <button
+                onClick={() => openArticle(NEWS[0].slug)}
+                style={{
                 background: "none", border: "none", color: "#1a1612", fontFamily: "inherit",
                 fontSize: 15, padding: 0, textDecoration: "underline", textUnderlineOffset: 6,
                 textDecorationColor: "#d97706", textDecorationThickness: 2,
                 display: "inline-flex", alignItems: "center", gap: 6, transition: "gap .3s",
+                cursor: "pointer",
               }}
                 onMouseEnter={(e) => (e.currentTarget.style.gap = "12px")}
                 onMouseLeave={(e) => (e.currentTarget.style.gap = "6px")}>
@@ -139,7 +145,15 @@ export function NewsScreen() {
         <section style={{ padding: "40px 28px 140px", maxWidth: 1400, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 40 }}>
             {filtered.map((n) => (
-              <article key={n.title} style={{ cursor: "pointer" }} className="news-card">
+              <article
+                key={n.slug}
+                role="button"
+                tabIndex={0}
+                onClick={() => openArticle(n.slug)}
+                onKeyDown={(e) => e.key === "Enter" && openArticle(n.slug)}
+                style={{ cursor: "pointer" }}
+                className="news-card"
+              >
                 <div style={{
                   aspectRatio: "4/3", borderRadius: 4, overflow: "hidden",
                   background: n.bgColor, position: "relative",

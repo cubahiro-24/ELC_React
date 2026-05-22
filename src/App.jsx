@@ -14,12 +14,14 @@ import {
   ServicesScreen,
   NewsScreen,
   ContactScreen,
+  ArticleDetailScreen,
 } from "./screens/index.js";
 
 export default function App() {
   const [path, setPath] = useState("/");
   const [transitioning, setTransitioning] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const articleMatch = path.match(/^\/news\/([^/]+)$/);
 
   const navigate = (to) => {
     if (to === path) return;
@@ -76,6 +78,7 @@ export default function App() {
           {path === "/about" && <AboutScreen />}
           {path === "/services" && <ServicesScreen />}
           {path === "/news" && <NewsScreen />}
+          {articleMatch && <ArticleDetailScreen slug={articleMatch[1]} />}
           {path === "/contact" && <ContactScreen />}
         </main>
 

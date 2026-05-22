@@ -44,7 +44,7 @@ export function Nav() {
 
       <nav className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 2 }}>
         {items.map((it, i) => {
-          const active = path === it.to;
+          const active = path === it.to || (it.to === "/news" && path.startsWith("/news/"));
           return (
             <button key={it.label} onClick={() => navigate(it.to)}
               style={{
